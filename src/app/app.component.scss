@@ -1,0 +1,21 @@
+.wrapper {
+  padding: 10px;
+}
+
+.cell {
+  padding: 0 5px;
+}
+
+td:hover {
+  font-weight: bold;
+}
+
+.form {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.button__add {
+  margin: 20px 0 10px 10px;
+}

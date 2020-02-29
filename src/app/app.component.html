@@ -1,153 +1,92 @@
-<div class="wrapper">
+<div class="wrapper" *ngIf="dataSource.data.length !== 0; else spinner">
   <mat-tab-group>
     <mat-tab label="One">
-      <table class="mat-elevation-z8" mat-table [dataSource]="dataSource">
+      <table class="table mat-elevation-z8" mat-table [dataSource]="dataSource">
         <ng-container matColumnDef="CARD">
-          <th class="cell" mat-header-cell *matHeaderCellDef> CARD </th>
-          <td class="cell" mat-cell *matCellDef="let user"> {{user.CARD}} </td>
+          <th class="table__cell" mat-header-cell *matHeaderCellDef> CARD </th>
+          <td class="table__cell table__cell--hover" mat-cell *matCellDef="let user"> {{user.CARD}} </td>
         </ng-container>
         <ng-container matColumnDef="LASTNAME">
-          <th class="cell" mat-header-cell *matHeaderCellDef> LASTNAME </th>
-          <td class="cell" mat-cell *matCellDef="let user"> {{user.LASTNAME}} </td>
+          <th class="table__cell" mat-header-cell *matHeaderCellDef> LASTNAME </th>
+          <td class="table__cell table__cell--hover" mat-cell *matCellDef="let user"> {{user.LASTNAME}} </td>
         </ng-container>
         <ng-container matColumnDef="FIRSTNAME">
-          <th class="cell" mat-header-cell *matHeaderCellDef> FIRSTNAME </th>
-          <td class="cell" mat-cell *matCellDef="let user"> {{user.FIRSTNAME}} </td>
+          <th class="table__cell" mat-header-cell *matHeaderCellDef> FIRSTNAME </th>
+          <td class="table__cell table__cell--hover" mat-cell *matCellDef="let user"> {{user.FIRSTNAME}} </td>
         </ng-container>
         <ng-container matColumnDef="PATRONYMIC">
-          <th class="cell" mat-header-cell *matHeaderCellDef> PATRONYMIC </th>
-          <td class="cell" mat-cell *matCellDef="let user"> {{user.PATRONYMIC}} </td>
+          <th class="table__cell" mat-header-cell *matHeaderCellDef> PATRONYMIC </th>
+          <td class="table__cell table__cell--hover" mat-cell *matCellDef="let user"> {{user.PATRONYMIC}} </td>
         </ng-container>
         <ng-container matColumnDef="IDPERSON">
-          <th class="cell" mat-header-cell *matHeaderCellDef> IDPERSON </th>
-          <td class="cell" mat-cell *matCellDef="let user"> {{user.IDPERSON}} </td>
+          <th class="table__cell" mat-header-cell *matHeaderCellDef> IDPERSON </th>
+          <td class="table__cell table__cell--hover" mat-cell *matCellDef="let user"> {{user.IDPERSON}} </td>
         </ng-container>
         <ng-container matColumnDef="STATUSNAME">
-          <th class="cell" mat-header-cell *matHeaderCellDef> STATUSNAME </th>
-          <td class="cell" mat-cell *matCellDef="let user"> {{user.STATUSNAME}} </td>
+          <th class="table__cell" mat-header-cell *matHeaderCellDef> STATUSNAME </th>
+          <td class="table__cell table__cell--hover" mat-cell *matCellDef="let user"> {{user.STATUSNAME}} </td>
         </ng-container>
         <ng-container matColumnDef="ACC1NUM">
-          <th class="cell" mat-header-cell *matHeaderCellDef> ACC1NUM </th>
-          <td class="cell" mat-cell *matCellDef="let user"> {{user.ACC1NUM}} </td>
+          <th class="table__cell" mat-header-cell *matHeaderCellDef> ACC1NUM </th>
+          <td class="table__cell table__cell--hover" mat-cell *matCellDef="let user"> {{user.ACC1NUM}} </td>
         </ng-container>
         <ng-container matColumnDef="CARDTEMPLNAME">
-          <th class="cell" mat-header-cell *matHeaderCellDef> CARDTEMPLNAME </th>
-          <td class="cell" mat-cell *matCellDef="let user"> {{user.CARDTEMPLNAME}} </td>
+          <th class="table__cell" mat-header-cell *matHeaderCellDef> CARDTEMPLNAME </th>
+          <td class="table__cell table__cell--hover" mat-cell *matCellDef="let user"> {{user.CARDTEMPLNAME}} </td>
         </ng-container>
         <ng-container matColumnDef="ORGNAMESHORT">
-          <th class="cell" mat-header-cell *matHeaderCellDef> ORGNAMESHORT </th>
-          <td class="cell" mat-cell *matCellDef="let user"> {{user.ORGNAMESHORT}} </td>
+          <th class="table__cell" mat-header-cell *matHeaderCellDef> ORGNAMESHORT </th>
+          <td class="table__cell table__cell--hover" mat-cell *matCellDef="let user"> {{user.ORGNAMESHORT}} </td>
         </ng-container>
         <ng-container matColumnDef="PERSONTYPENAME">
-          <th class="cell" mat-header-cell *matHeaderCellDef> PERSONTYPENAME </th>
-          <td class="cell" mat-cell *matCellDef="let user"> {{user.PERSONTYPENAME}} </td>
+          <th class="table__cell" mat-sort-header mat-header-cell *matHeaderCellDef> PERSONTYPENAME </th>
+          <td class="table__cell table__cell--hover" mat-cell *matCellDef="let user"> {{user.PERSONTYPENAME}} </td>
         </ng-container>
         <ng-container matColumnDef="CURRNAME">
-          <th class="cell" mat-header-cell *matHeaderCellDef> CURRNAME </th>
-          <td class="cell" mat-cell *matCellDef="let user"> {{user.CURRNAME}} </td>
+          <th class="table__cell" mat-header-cell *matHeaderCellDef> CURRNAME </th>
+          <td class="table__cell table__cell--hover" mat-cell *matCellDef="let user"> {{user.CURRNAME}} </td>
         </ng-container>
         <ng-container matColumnDef="IDCARD">
-          <th class="cell" mat-header-cell *matHeaderCellDef> IDCARD </th>
-          <td class="cell" mat-cell *matCellDef="let user"> {{user.IDCARD}} </td>
+          <th class="table__cell" mat-header-cell *matHeaderCellDef> IDCARD </th>
+          <td class="table__cell table__cell--hover" mat-cell *matCellDef="let user"> {{user.IDCARD}} </td>
         </ng-container>
         <ng-container matColumnDef="BIRTHDATE">
-          <th class="cell" mat-header-cell *matHeaderCellDef> BIRTHDATE </th>
-          <td class="cell" mat-cell *matCellDef="let user"> {{user.BIRTHDATE}} </td>
+          <th class="table__cell" mat-header-cell *matHeaderCellDef> BIRTHDATE </th>
+          <td class="table__cell table__cell--hover" mat-cell *matCellDef="let user"> {{user.BIRTHDATE}} </td>
         </ng-container>
         <ng-container matColumnDef="DOCSERIES">
-          <th class="cell" mat-header-cell *matHeaderCellDef> DOCSERIES </th>
-          <td class="cell" mat-cell *matCellDef="let user"> {{user.DOCSERIES}} </td>
+          <th class="table__cell" mat-header-cell *matHeaderCellDef> DOCSERIES </th>
+          <td class="table__cell table__cell--hover" mat-cell *matCellDef="let user"> {{user.DOCSERIES}} </td>
         </ng-container>
         <ng-container matColumnDef="DOCNUM">
-          <th class="cell" mat-header-cell *matHeaderCellDef> DOCNUM </th>
-          <td class="cell" mat-cell *matCellDef="let user"> {{user.DOCNUM}} </td>
+          <th class="table__cell" mat-header-cell *matHeaderCellDef> DOCNUM </th>
+          <td class="table__cell table__cell--hover" mat-cell *matCellDef="let user"> {{user.DOCNUM}} </td>
         </ng-container>
         <ng-container matColumnDef="IDTASKAUTHSTATUS">
-          <th class="cell" mat-header-cell *matHeaderCellDef> IDTASKAUTHSTATUS </th>
-          <td class="cell" mat-cell *matCellDef="let user"> {{user.IDTASKAUTHSTATUS}} </td>
+          <th class="table__cell" mat-header-cell *matHeaderCellDef> IDTASKAUTHSTATUS </th>
+          <td class="table__cell table__cell--hover" mat-cell *matCellDef="let user"> {{user.IDTASKAUTHSTATUS}} </td>
         </ng-container>
         <ng-container matColumnDef="DOCTYPENAME">
-          <th class="cell" mat-header-cell *matHeaderCellDef> DOCTYPENAME </th>
-          <td class="cell" mat-cell *matCellDef="let user"> {{user.DOCTYPENAME}} </td>
+          <th class="table__cell" mat-header-cell *matHeaderCellDef> DOCTYPENAME </th>
+          <td class="table__cell table__cell--hover" mat-cell *matCellDef="let user"> {{user.DOCTYPENAME}} </td>
         </ng-container>
         <ng-container matColumnDef="EDIT">
-          <th class="cell" mat-header-cell *matHeaderCellDef>EDIT</th>
-          <td class="cell" mat-cell *matCellDef="let user; let i = index">
+          <th class="table__cell" mat-header-cell *matHeaderCellDef>EDIT</th>
+          <td class="table__cell table__cell--hover" mat-cell *matCellDef="let user; let i = index">
             <a href="#" (click)="editUser(user, i)">Edit</a>
           </td>
         </ng-container>
         <ng-container matColumnDef="DELETE">
-          <th class="cell" mat-header-cell *matHeaderCellDef>DELETE</th>
-          <td class="cell" mat-cell *matCellDef="let user">
+          <th class="table__cell" mat-header-cell *matHeaderCellDef>DELETE</th>
+          <td class="table__cell table__cell--hover" mat-cell *matCellDef="let user">
             <a href="#" (click)="removeUser(user)">Delete</a>
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="columns"></tr>
         <tr mat-row *matRowDef="let row; columns: columns;"></tr>
       </table>
-      <button class="button__add" mat-raised-button color="primary" (click)="openPanelForAddUser()">Add user</button>
-      <mat-accordion>
-        <mat-expansion-panel [expanded]="panelOpenState">
-          <form class="form" [formGroup]="myForm">
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Card number" formControlName="CARD">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Last name" formControlName="LASTNAME">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="First name" formControlName="FIRSTNAME">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Patronymic" formControlName="PATRONYMIC">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Person ID" formControlName="IDPERSON">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Status name" formControlName="STATUSNAME">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Acc number" formControlName="ACC1NUM">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Card name" formControlName="CARDTEMPLNAME">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Name of organization" formControlName="ORGNAMESHORT">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Person type name" formControlName="PERSONTYPENAME">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Currency name" formControlName="CURRNAME">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="ID card" formControlName="IDCARD">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Your birthday" formControlName="BIRTHDATE">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Series of document" formControlName="DOCSERIES">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Number of document" formControlName="DOCNUM">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Status ID" formControlName="IDTASKAUTHSTATUS">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Type of document" formControlName="DOCTYPENAME">
-            </mat-form-field>
-            <button *ngIf="!panelAddUserOpenState" [disabled]="formDisabled" (click)="updateUser()">Update</button>
-            <button *ngIf="panelAddUserOpenState" [disabled]="formDisabled" (click)="addUser()">Add user</button>
-          </form>
-        </mat-expansion-panel>
-      </mat-accordion>
     </mat-tab>
     <mat-tab label="Two">
-
       <mat-grid-list cols="10" rowHeight="650px">
         <mat-grid-tile
           *ngFor="let user of dataSource.data; let i = index"
@@ -179,67 +118,70 @@
           </mat-card>
         </mat-grid-tile>
       </mat-grid-list>
-      <button class="button__add" mat-raised-button color="primary" (click)="openPanelForAddUser()">Add user</button>
-      <mat-accordion>
-        <mat-expansion-panel [expanded]="panelOpenState">
-          <form class="form" [formGroup]="myForm">
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Card number" formControlName="CARD">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Last name" formControlName="LASTNAME">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="First name" formControlName="FIRSTNAME">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Patronymic" formControlName="PATRONYMIC">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Person ID" formControlName="IDPERSON">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Status name" formControlName="STATUSNAME">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Acc number" formControlName="ACC1NUM">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Card name" formControlName="CARDTEMPLNAME">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Name of organization" formControlName="ORGNAMESHORT">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Person type name" formControlName="PERSONTYPENAME">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Currency name" formControlName="CURRNAME">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="ID card" formControlName="IDCARD">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Your birthday" formControlName="BIRTHDATE">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Series of document" formControlName="DOCSERIES">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Number of document" formControlName="DOCNUM">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Status ID" formControlName="IDTASKAUTHSTATUS">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Type of document" formControlName="DOCTYPENAME">
-            </mat-form-field>
-            <button *ngIf="!panelAddUserOpenState" [disabled]="formDisabled" (click)="updateUser()">Update</button>
-            <button *ngIf="panelAddUserOpenState" [disabled]="formDisabled" (click)="addUser()">Add user</button>
-          </form>
-        </mat-expansion-panel>
-      </mat-accordion>
     </mat-tab>
   </mat-tab-group>
+  <button class="button__add" mat-raised-button color="primary" (click)="openPanelForAddUser()">Add user</button>
+    <mat-accordion>
+      <mat-expansion-panel [expanded]="panelOpenState">
+        <form class="form" [formGroup]="myForm" *ngIf="myForm">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Card number" formControlName="CARD">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Last name" formControlName="LASTNAME">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="First name" formControlName="FIRSTNAME">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Patronymic" formControlName="PATRONYMIC">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Person ID" formControlName="IDPERSON">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Status name" formControlName="STATUSNAME">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Acc number" formControlName="ACC1NUM">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Card name" formControlName="CARDTEMPLNAME">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Name of organization" formControlName="ORGNAMESHORT">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Person type name" formControlName="PERSONTYPENAME">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Currency name" formControlName="CURRNAME">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="ID card" formControlName="IDCARD">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Your birthday" readonly formControlName="BIRTHDATE">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Series of document" formControlName="DOCSERIES">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Number of document" formControlName="DOCNUM">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Status ID" formControlName="IDTASKAUTHSTATUS">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Type of document" formControlName="DOCTYPENAME">
+          </mat-form-field>
+          <button *ngIf="!showButtonAddUser" [disabled]="formDisabled" (click)="updateUser()">Update</button>
+          <button *ngIf="showButtonAddUser" [disabled]="formDisabled" (click)="addUser()">Add user</button>
+        </form>
+      </mat-expansion-panel>
+    </mat-accordion>
 </div>
+<ng-template #spinner>
+  <mat-spinner class="spinner" mode="indeterminate" value="75"></mat-spinner>
+</ng-template>
 

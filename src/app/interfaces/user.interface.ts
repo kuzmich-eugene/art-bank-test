@@ -1,4 +1,5 @@
 export interface IUser {
+  ID: number;
   CARD: string;
   LASTNAME: string;
   FIRSTNAME: string;

@@ -3,6 +3,7 @@
 }
 
 .table{
+  margin: 0 auto;
 
   &__cell {
     padding: 0 5px;
@@ -14,13 +15,25 @@
 }
 
 .form {
-  width: 300px;
+  width: 100%;
+  max-width: 1000px;
   display: flex;
-  flex-direction: column;
+  margin: 0 auto;
+  justify-content: space-around;
+  flex-wrap: wrap;
+
+  &__item {
+    width: 40%;
+  }
+
+  &__button {
+    border-radius: 20px;
+  }
 }
 
 .button__add {
-  margin: 20px 0 10px 10px;
+  display: block;
+  margin: 20px auto 10px auto;
 }
 
 .spinner {

@@ -1,11 +1,12 @@
 import * as R from 'ramda';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { untilComponentDestroyed } from 'ng2-rx-componentdestroyed';
+import { tap } from 'rxjs/operators';
 
 import { UsersService } from './services/users.service';
 import { IUser } from './interfaces/user.interface';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -18,38 +19,50 @@ export class AppComponent implements OnInit, OnDestroy {
   public myForm: FormGroup;
   public panelOpenState = false;
   public showButtonAddUser = false;
-  public keysFormControls: string[];
+  private idx: number;
+  public keys: string[];
+  private currUser: IUser;
 
   get formDisabled(): boolean {
     return this.myForm.invalid || this.myForm.pristine;
+  }
+  get userAddPanelOpenNow(): boolean {
+    return this.panelOpenState && this.showButtonAddUser;
+  }
+  get userEditPanelOpenNow(): boolean {
+    return this.panelOpenState && !this.showButtonAddUser;
   }
 
   constructor(
     private usersService: UsersService
   ) {}
 
-  ngOnInit() {
-    this.usersService.loadUsers();
-    this.usersService.subj$.pipe(
+  async ngOnInit() {
+    await this.usersService.loadUsers();
+    this.usersService.state$.pipe(
+      tap(state => {
+        this.dataSource.data = state;
+        this.keys = this.usersService.keysNamesOfUser;
+        this.columns = this.keys.slice(1).concat(['EDIT', 'DELETE']);
+        if (this.idx !== this.usersService.keysNamesOfUser.length) {
+          this.idx = this.usersService.keysNamesOfUser.length;
+          this.createForm(this.usersService.keysNamesOfUser);
+        }
+      }),
       untilComponentDestroyed(this)
-    ).subscribe((state) => {
-      this.dataSource.data = state.users;
-      this.keysFormControls = state.metaData;
-      this.columns = state.metaData.concat(['EDIT', 'DELETE']);
-      this.createForm();
-    });
+    ).subscribe();
   }
 
-  private createForm() {
-      const objFormGroup = R.reduce((acc, curr) => ({...acc, [curr]: new FormControl('', Validators.required)}), {}, this.keysFormControls);
+  private createForm(keys) {
+      const objFormGroup = R.reduce((acc, curr) => ({...acc, [curr]: new FormControl('', Validators.required)}), {}, keys.slice(1));
       this.myForm = new FormGroup(objFormGroup);
   }
 
   public openPanelForAddUser() {
-    if (this.panelOpenState && !this.showButtonAddUser) {
-      const result = confirm('Do you want to edit a user?');
+    if (this.userEditPanelOpenNow) {
+      const result = confirm('Do you want to save the changes?');
       if (result) {
-        return;
+        this.updateUser();
       }
     }
     this.myForm.reset();
@@ -64,8 +77,9 @@ export class AppComponent implements OnInit, OnDestroy {
     this.panelOpenState = false;
   }
 
-  public editUser(user: IUser, index: number) {
-    if (this.panelOpenState && this.showButtonAddUser) {
+  public openPanelForEditUser(user: IUser) {
+    this.currUser = user;
+    if (this.userAddPanelOpenNow) {
       const result = confirm('Do you want to add a user?');
       if (result) {
         return;
@@ -77,7 +91,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public updateUser() {
-    const editUser = this.myForm.value;
+    const editUser = {ID: this.currUser.ID, ...this.myForm.value};
     this.usersService.editUser(editUser);
     this.myForm.reset();
     this.panelOpenState = false;
@@ -88,5 +102,4 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {}
-
 }

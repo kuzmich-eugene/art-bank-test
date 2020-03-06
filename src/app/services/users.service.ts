@@ -1,51 +1,57 @@
 import * as R from 'ramda';
 import { Injectable } from '@angular/core';
-
 import { BehaviorSubject } from 'rxjs';
+
 import { IUser } from '../interfaces/user.interface.js';
-import { IState } from '../interfaces/state.interface.js';
 
 @Injectable()
 export class UsersService {
-  public state: IState = {
-    metaData: [],
-    users: []
-  };
-
-  private _subj = new BehaviorSubject<IState>(this.state);
-  get subj$() {
-    return this._subj.asObservable();
+  private state = new BehaviorSubject<IUser[]>([]);
+  get state$() {
+    return this.state.asObservable();
+  }
+  private userKeysNames: string[];
+  get keysNamesOfUser() {
+    return this.userKeysNames;
   }
 
   public async loadUsers() {
-    const data = await new Promise(resolve => resolve(import('./person.json')));
+    const data = await import('./person.json');
     const {metaData, rows} = R.path(['default', 'data'], data);
     const keys = R.map(R.path(['name']), metaData);
     const makeUserFromKeys = R.zipObj(keys);
     const users = R.map(makeUserFromKeys, rows);
-    this._subj.next({metaData: keys, users});
+    this.userKeysNames = keys;
+    this.state.next(users);
   }
 
   public addUser(user: IUser) {
-    const currState = this._subj.getValue();
-    const usersWithAddUser = R.concat(currState.users, [user]);
-    this._subj.next({metaData: currState.metaData, users: usersWithAddUser});
+    const newUser = {ID: this.generateId(), ...user};
+    const currState = this.state.getValue();
+    const usersWithAddUser = R.concat(currState, [newUser]);
+    this.state.next(usersWithAddUser);
+  }
+
+  private generateId() {
+    const countUsers = this.state.getValue();
+    const num = countUsers.length > 0 ? Math.max(...countUsers.map(item => item.ID)) + 1 : 11;
+    return num;
   }
 
   public editUser(userEdit: IUser) {
-    const currState = this._subj.getValue();
+    const currState = this.state.getValue();
     const usersWithEditUser = R.map(user => {
-      if (user.BIRTHDATE === userEdit.BIRTHDATE) {
+      if (user.ID === userEdit.ID) {
         return {...userEdit};
       }
       return user;
-    }, currState.users);
-    this._subj.next({metaData: currState.metaData, users: usersWithEditUser});
+    }, currState);
+    this.state.next(usersWithEditUser);
   }
 
   public deleteUser(userDelete: IUser) {
-    const currState = this._subj.getValue();
-    const usersWithoutDeleteUser = R.filter(user => user.CARD !== userDelete.CARD, currState.users);
-    this._subj.next({metaData: currState.metaData, users: usersWithoutDeleteUser});
+    const currState = this.state.getValue();
+    const usersWithoutDeleteUser = R.filter(user => user.ID !== userDelete.ID, currState);
+    this.state.next(usersWithoutDeleteUser);
   }
 }

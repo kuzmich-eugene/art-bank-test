@@ -15,7 +15,7 @@ export class UsersService {
     return this.userKeysNames;
   }
 
-  public async loadUsers() {
+  public async loadUsers(): Promise<IUser[]> {
     const data = await import('./person.json');
     const {metaData, rows} = R.path(['default', 'data'], data);
     const keys = R.map(R.path(['name']), metaData);
@@ -23,13 +23,15 @@ export class UsersService {
     const users = R.map(makeUserFromKeys, rows);
     this.userKeysNames = keys;
     this.state.next(users);
+    return users;
   }
 
-  public addUser(user: IUser) {
+  public addUser(user: IUser): IUser {
     const newUser = {ID: this.generateId(), ...user};
     const currState = this.state.getValue();
     const usersWithAddUser = R.concat(currState, [newUser]);
     this.state.next(usersWithAddUser);
+    return newUser;
   }
 
   private generateId() {
@@ -38,7 +40,7 @@ export class UsersService {
     return num;
   }
 
-  public editUser(userEdit: IUser) {
+  public editUser(userEdit: IUser): IUser {
     const currState = this.state.getValue();
     const usersWithEditUser = R.map(user => {
       if (user.ID === userEdit.ID) {
@@ -47,11 +49,13 @@ export class UsersService {
       return user;
     }, currState);
     this.state.next(usersWithEditUser);
+    return userEdit;
   }
 
-  public deleteUser(userDelete: IUser) {
+  public deleteUser(userDelete: IUser): IUser {
     const currState = this.state.getValue();
     const usersWithoutDeleteUser = R.filter(user => user.ID !== userDelete.ID, currState);
     this.state.next(usersWithoutDeleteUser);
+    return userDelete;
   }
 }

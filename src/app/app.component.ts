@@ -8,6 +8,8 @@ import { tap } from 'rxjs/operators';
 import { UsersService } from './services/users.service';
 import { IUser } from './interfaces/user.interface';
 
+type UserFormType = 'addUser' | 'editUser';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -18,19 +20,17 @@ export class AppComponent implements OnInit, OnDestroy {
   public columns = [];
   public myForm: FormGroup;
   public panelOpenState = false;
-  public showButtonAddUser = false;
-  private idx: number;
+  private countKeys: number;
   public keys: string[];
+  private formType: UserFormType = null;
+  public isSpinnerShow = false;
   private currUser: IUser;
 
   get formDisabled(): boolean {
     return this.myForm.invalid || this.myForm.pristine;
   }
-  get userAddPanelOpenNow(): boolean {
-    return this.panelOpenState && this.showButtonAddUser;
-  }
-  get userEditPanelOpenNow(): boolean {
-    return this.panelOpenState && !this.showButtonAddUser;
+  get buttonSettings(): string {
+    return this.formType === 'addUser' ? 'Add user' : 'Update';
   }
 
   constructor(
@@ -38,14 +38,16 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {}
 
   async ngOnInit() {
+    this.isSpinnerShow = true;
     await this.usersService.loadUsers();
     this.usersService.state$.pipe(
       tap(state => {
         this.dataSource.data = state;
         this.keys = this.usersService.keysNamesOfUser;
         this.columns = this.keys.slice(1).concat(['EDIT', 'DELETE']);
-        if (this.idx !== this.usersService.keysNamesOfUser.length) {
-          this.idx = this.usersService.keysNamesOfUser.length;
+        this.isSpinnerShow = false;
+        if (this.countKeys !== this.keys.length) {
+          this.countKeys = this.keys.length;
           this.createForm(this.usersService.keysNamesOfUser);
         }
       }),
@@ -58,16 +60,29 @@ export class AppComponent implements OnInit, OnDestroy {
       this.myForm = new FormGroup(objFormGroup);
   }
 
-  public openPanelForAddUser() {
-    if (this.userEditPanelOpenNow) {
-      const result = confirm('Do you want to save the changes?');
-      if (result) {
-        this.updateUser();
+  public openFormPanel(userType: UserFormType, user?: IUser) {
+    this.currUser = user;
+    if (this.formType === null) {
+      this.formType = userType;
+      this.panelOpenState = true;
+      if (userType === 'editUser') {
+        this.myForm.patchValue({...user});
       }
+    } else if (this.formType === 'editUser' && userType === 'addUser') {
+      const result = confirm('Do you want to add a new user?');
+      if (!result) {
+        return;
+      }
+      this.myForm.reset();
+      this.formType = 'addUser';
+    } else if (this.formType === 'addUser' && userType === 'editUser') {
+      const result = confirm('Do you want to edit a user?');
+      if (!result) {
+        return;
+      }
+      this.formType = 'editUser';
+      this.myForm.patchValue({...user});
     }
-    this.myForm.reset();
-    this.panelOpenState = true;
-    this.showButtonAddUser = true;
   }
 
   public addUser() {
@@ -75,19 +90,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.usersService.addUser(newUser);
     this.myForm.reset();
     this.panelOpenState = false;
-  }
-
-  public openPanelForEditUser(user: IUser) {
-    this.currUser = user;
-    if (this.userAddPanelOpenNow) {
-      const result = confirm('Do you want to add a user?');
-      if (result) {
-        return;
-      }
-    }
-    this.panelOpenState = true;
-    this.showButtonAddUser = false;
-    this.myForm.patchValue({...user});
+    this.formType = null;
   }
 
   public updateUser() {
@@ -95,6 +98,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.usersService.editUser(editUser);
     this.myForm.reset();
     this.panelOpenState = false;
+    this.formType = null;
   }
 
   public removeUser(user: IUser) {

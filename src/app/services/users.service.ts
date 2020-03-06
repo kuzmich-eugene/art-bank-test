@@ -42,12 +42,7 @@ export class UsersService {
 
   public editUser(userEdit: IUser): IUser {
     const currState = this.state.getValue();
-    const usersWithEditUser = R.map(user => {
-      if (user.ID === userEdit.ID) {
-        return {...userEdit};
-      }
-      return user;
-    }, currState);
+    const usersWithEditUser = R.map(user => user.ID === userEdit.ID ? {...userEdit} : user, currState);
     this.state.next(usersWithEditUser);
     return userEdit;
   }

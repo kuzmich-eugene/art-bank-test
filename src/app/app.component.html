@@ -52,7 +52,7 @@
         </ng-container>
         <ng-container matColumnDef="BIRTHDATE">
           <th class="table__cell" mat-header-cell *matHeaderCellDef>BIRTHDATE</th>
-          <td class="table__cell table__cell--hover" mat-cell *matCellDef="let user">{{ user.BIRTHDATE }}</td>
+          <td class="table__cell table__cell--hover" mat-cell *matCellDef="let user">{{ user.BIRTHDATE | date }}</td>
         </ng-container>
         <ng-container matColumnDef="DOCSERIES">
           <th class="table__cell" mat-header-cell *matHeaderCellDef>DOCSERIES</th>
@@ -105,7 +105,7 @@
               <p>{{ user.PERSONTYPENAME }}</p>
               <p>{{ user.CURRNAME }}</p>
               <p>{{ user.IDCARD }}</p>
-              <p>{{ user.BIRTHDATE }}</p>
+              <p>{{ user.BIRTHDATE | date }}</p>
               <p>{{ user.DOCSERIES }}</p>
               <p>{{ user.DOCNUM }}</p>
               <p>{{ user.IDTASKAUTHSTATUS }}</p>
@@ -162,7 +162,9 @@
             <input matInput placeholder="ID card" formControlName="IDCARD">
           </mat-form-field>
           <mat-form-field class="form__item">
-            <input matInput placeholder="Your birthday" formControlName="BIRTHDATE">
+            <input matInput [matDatepicker]="picker" placeholder="Choose a date" formControlName="BIRTHDATE">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
           <mat-form-field class="form__item">
             <input matInput placeholder="Series of document" formControlName="DOCSERIES">

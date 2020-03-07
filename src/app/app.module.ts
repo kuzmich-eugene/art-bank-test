@@ -10,6 +10,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 import { AppComponent } from './app.component';
 import { UsersService } from './services/users.service';
@@ -31,9 +33,12 @@ import { UsersService } from './services/users.service';
     MatCardModule,
     MatButtonModule,
     MatProgressSpinnerModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [
-    UsersService
+    UsersService,
+    MatDatepickerModule
   ],
   bootstrap: [AppComponent]
 })

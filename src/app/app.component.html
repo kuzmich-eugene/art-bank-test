@@ -73,7 +73,7 @@
         <ng-container matColumnDef="EDIT">
           <th class="table__cell" mat-header-cell *matHeaderCellDef>EDIT</th>
           <td class="table__cell table__cell--hover" mat-cell *matCellDef="let user">
-            <a href="#" (click)="openFormPanel('editUser', user)">Edit</a>
+            <a href="#" (click)="openPanelForEditUser(user)">Edit</a>
           </td>
         </ng-container>
         <ng-container matColumnDef="DELETE">
@@ -112,7 +112,7 @@
               <p>{{ user.DOCTYPENAME }}</p>
             </mat-card-content>
             <mat-card-actions>
-              <button mat-button (click)="openFormPanel('editUser', user)">Edit</button>
+              <button mat-button (click)="openPanelForEditUser(user)">Edit</button>
               <button mat-button (click)="removeUser(user)">Delete</button>
             </mat-card-actions>
           </mat-card>
@@ -120,10 +120,10 @@
       </mat-grid-list>
     </mat-tab>
   </mat-tab-group>
-  <button class="button__add" mat-raised-button color="primary" (click)="openFormPanel('addUser')">Add user</button>
+  <button class="button__add" mat-raised-button color="primary" (click)="openPanelForAddUser()">Add user</button>
     <mat-accordion>
       <mat-expansion-panel [expanded]="panelOpenState">
-        <form class="form" [formGroup]="myForm" *ngIf="myForm">
+        <form class="form" [formGroup]="myForm" *ngIf="myForm" (submit)="handleSubmit()">
           <mat-form-field class="form__item">
             <input matInput placeholder="Card number" formControlName="CARD">
           </mat-form-field>
@@ -180,7 +180,7 @@
             mat-raised-button
             color="primary"
             [disabled]="formDisabled"
-            (click)="buttonSettings === 'Add user' ? addUser() : updateUser()">
+            type="submit">
             {{ buttonSettings }}
           </button>
         </form>

@@ -59,22 +59,41 @@ export class AppComponent implements OnInit, OnDestroy {
       this.myForm = new FormGroup({ID: new FormControl(''), ...objFormGroup});
   }
 
-  public openFormPanel(userType: UserFormType, user?: IUser) {
+  public handleSubmit() {
+    switch (this.formType) {
+      case 'addUser':
+        this.addUser();
+        break;
+      case 'editUser':
+        this.updateUser();
+        break;
+    }
+  }
+
+  public openPanelForAddUser() {
     if (this.formType === null) {
-      this.formType = userType;
+      this.formType = 'addUser';
       this.panelOpenState = true;
-      if (userType === 'editUser') {
-        this.myForm.patchValue({...user});
-      }
-    } else if (this.formType === 'editUser' && userType === 'addUser') {
-      const result = confirm('Do you want to add a new user?');
+    } else {
+      const result = confirm('You have unsaved data. Do you want to continue without saving?');
       if (!result) {
         return;
       }
       this.myForm.reset();
+      Object.keys(this.myForm.controls).forEach(key => {
+        this.myForm.controls[key].setErrors(null) ;
+      });
       this.formType = 'addUser';
-    } else if (this.formType === 'addUser' && userType === 'editUser') {
-      const result = confirm('Do you want to edit a user?');
+    }
+  }
+
+  public openPanelForEditUser(user: IUser) {
+    if (this.formType === null) {
+      this.formType = 'editUser';
+      this.panelOpenState = true;
+      this.myForm.patchValue({...user});
+    } else {
+      const result = confirm('You have unsaved data. Do you want to continue without adding a new user?');
       if (!result) {
         return;
       }
@@ -84,18 +103,31 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public addUser() {
+    if (this.formDisabled) {
+      return;
+    }
     const newUser: IUser = this.myForm.value;
     this.usersService.addUser(newUser);
-    this.myForm.reset();
     this.panelOpenState = false;
     this.formType = null;
+    this.myForm.reset();
+    Object.keys(this.myForm.controls).forEach(key => {
+      this.myForm.controls[key].setErrors(null) ;
+    });
   }
 
   public updateUser() {
-    this.usersService.editUser(this.myForm.value);
-    this.myForm.reset();
+    if (this.formDisabled) {
+      return;
+    }
+    const editUser = this.myForm.value;
+    this.usersService.editUser({...editUser});
     this.panelOpenState = false;
     this.formType = null;
+    this.myForm.reset();
+    Object.keys(this.myForm.controls).forEach(key => {
+      this.myForm.controls[key].setErrors(null) ;
+    });
   }
 
   public removeUser(user: IUser) {

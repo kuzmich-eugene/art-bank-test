@@ -27,11 +27,11 @@ export class UsersService {
   }
 
   public addUser(user: IUser): IUser {
-    const newUser = {ID: this.generateId(), ...user};
+    user.ID = this.generateId();
     const currState = this.state.getValue();
-    const usersWithAddUser = R.concat(currState, [newUser]);
+    const usersWithAddUser = R.concat(currState, [user]);
     this.state.next(usersWithAddUser);
-    return newUser;
+    return user;
   }
 
   private generateId() {

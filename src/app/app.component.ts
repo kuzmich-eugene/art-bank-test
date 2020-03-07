@@ -24,7 +24,6 @@ export class AppComponent implements OnInit, OnDestroy {
   public keys: string[];
   private formType: UserFormType = null;
   public isSpinnerShow = false;
-  private currUser: IUser;
 
   get formDisabled(): boolean {
     return this.myForm.invalid || this.myForm.pristine;
@@ -57,11 +56,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private createForm(keys) {
       const objFormGroup = R.reduce((acc, curr) => ({...acc, [curr]: new FormControl('', Validators.required)}), {}, keys.slice(1));
-      this.myForm = new FormGroup(objFormGroup);
+      this.myForm = new FormGroup({ID: new FormControl(''), ...objFormGroup});
   }
 
   public openFormPanel(userType: UserFormType, user?: IUser) {
-    this.currUser = user;
     if (this.formType === null) {
       this.formType = userType;
       this.panelOpenState = true;
@@ -94,8 +92,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public updateUser() {
-    const editUser = {ID: this.currUser.ID, ...this.myForm.value};
-    this.usersService.editUser(editUser);
+    this.usersService.editUser(this.myForm.value);
     this.myForm.reset();
     this.panelOpenState = false;
     this.formType = null;

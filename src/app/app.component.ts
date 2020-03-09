@@ -71,32 +71,27 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public openPanelForAddUser() {
-    if (this.formType === null) {
-      this.formType = 'addUser';
-      this.panelOpenState = true;
-    } else {
+    if (this.formType === 'editUser') {
       const result = confirm('You have unsaved data. Do you want to continue without saving?');
       if (!result) {
         return;
       }
-      this.myForm.reset();
-      this.formType = 'addUser';
     }
+    this.formType = 'addUser';
+    this.panelOpenState = true;
+    this.myForm.reset();
   }
 
   public openPanelForEditUser(user: IUser) {
-    if (this.formType === null) {
-      this.formType = 'editUser';
-      this.panelOpenState = true;
-      this.myForm.patchValue({...user});
-    } else {
+    if (this.formType === 'addUser') {
       const result = confirm('You have unsaved data. Do you want to continue without adding a new user?');
       if (!result) {
         return;
       }
-      this.formType = 'editUser';
-      this.myForm.patchValue({...user});
     }
+    this.formType = 'editUser';
+    this.panelOpenState = true;
+    this.myForm.patchValue({...user});
   }
 
   public addUser() {

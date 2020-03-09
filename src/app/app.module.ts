@@ -11,14 +11,15 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 
 import { AppComponent } from './app.component';
 import { UsersService } from './services/users.service';
+import { MyErrorStateMatcher } from './my-error-state-matcher.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,7 +39,8 @@ import { UsersService } from './services/users.service';
   ],
   providers: [
     UsersService,
-    MatDatepickerModule
+    MatDatepickerModule,
+    { provide: ErrorStateMatcher, useClass: MyErrorStateMatcher }
   ],
   bootstrap: [AppComponent]
 })

@@ -80,9 +80,6 @@ export class AppComponent implements OnInit, OnDestroy {
         return;
       }
       this.myForm.reset();
-      Object.keys(this.myForm.controls).forEach(key => {
-        this.myForm.controls[key].setErrors(null) ;
-      });
       this.formType = 'addUser';
     }
   }
@@ -111,9 +108,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.panelOpenState = false;
     this.formType = null;
     this.myForm.reset();
-    Object.keys(this.myForm.controls).forEach(key => {
-      this.myForm.controls[key].setErrors(null) ;
-    });
   }
 
   public updateUser() {
@@ -125,9 +119,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.panelOpenState = false;
     this.formType = null;
     this.myForm.reset();
-    Object.keys(this.myForm.controls).forEach(key => {
-      this.myForm.controls[key].setErrors(null) ;
-    });
   }
 
   public removeUser(user: IUser) {
